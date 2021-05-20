@@ -37,7 +37,14 @@ catkin build
 
 ## Run Demo
 
+connect the Coral USB Accelerator to your PC
+
 ```bash
 source ~/aerov_grasp_ws/devel/setup.bash
 roslaunch semantic_segmentation_tpu semantic_segmentation.launch
 ```
+if nothing goes wrong, you should see the output result after some seconds
+
+if you get error like:
+"ValueError: Failed to load delegate from libedgetpu.so.1"
+it may due to the pc fail to detect the coral device, you can try to plug the Coral USB Accelerator to other usb ports.
