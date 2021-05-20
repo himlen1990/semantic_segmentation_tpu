@@ -17,7 +17,7 @@ import sys
 import numpy as np
 
 class semantic_segmentation_tpu:
-    def __init__(self, model, labels, device=':0', keep_aspect_ratio=True):
+    def __init__(self, model, device=':0', keep_aspect_ratio=True):
         
         self.img_sub = rospy.Subscriber("~input", ImageMsg, self.callback)
         self.interpreter = make_interpreter(model, device=device)
@@ -96,12 +96,8 @@ class semantic_segmentation_tpu:
         output_img = Image.new('RGB', (2 * new_width, new_height))
         output_img.paste(resized_img, (0, 0))
         output_img.paste(mask_img, (self.model_input_width, 0))
-        #output_img.save(args.output)
-        #print('Done. Results saved at', args.output)
         original_width, original_height = img.size
         recovered_cvimg = np.array(output_img.resize((2*original_width, original_height), Image.ANTIALIAS))
-        #output_cvimg = np.array(output_img)
-        #output_cvimg = cv2.cvtColor(np.array(output_img), cv2.COLOR_RGB2BGR)
         cv2.imshow("resizedimg",recovered_cvimg)
         cv2.waitKey(3)        
 
@@ -110,10 +106,9 @@ def main(args):
     rospy.init_node('semantic_segmentation_tpu', anonymous=True)
     
     model_path = rospy.get_param('~model_path')
-    label_path = rospy.get_param('~label_path')    
     device = rospy.get_param('~device', default=':0')
     keep_aspect_ratio = rospy.get_param('~keep_aspect_ratio', default=True)
-    sst = semantic_segmentation_tpu(model_path, label_path, device, keep_aspect_ratio)
+    sst = semantic_segmentation_tpu(model_path, device, keep_aspect_ratio)
 
     try:
         rospy.spin()

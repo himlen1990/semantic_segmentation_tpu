@@ -1,8 +1,7 @@
 <launch>
-  <node pkg="uvc_camera" name="uvc_camera" type="uvc_camera_node" output="screen"/>
+  <include file="$(find uvc_camera)/launch/camera_node.launch" />  
   <node pkg="semantic_segmentation_tpu" name="semantic_segmentation_tpu" type="semantic_segmentation_tpu.py" output="screen">
-    <param name="model_path" value="$(find semantic_segmentation_tpu)/models/deeplabv3_mnv2_custom.tflite" />
-    <param name="label_path" value="$(find semantic_segmentation_tpu)/models/labels.txt" />
-    <remap from="~input" to="/openni_camera/rgb/image_raw" />
+    <param name="model_path" value="$(find semantic_segmentation_tpu)/models/deeplabv3_mnv2_pascal_quant_edgetpu.tflite" />
+    <remap from="~input" to="/image_raw" />
   </node>
 </launch>
