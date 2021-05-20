@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.0.2)
+project(semantic_segmentation_tpu)
+
+find_package(catkin REQUIRED COMPONENTS message_generation rospy)
+
+catkin_package()
+
+catkin_install_python(PROGRAMS scripts/semantic_segmentation_tpu
+                      DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+
